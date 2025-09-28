@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
-  "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
-  "build": "tsc",
-  "start": "node dist/app.js"
-},
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sarahzahiac/420-514-TP1.git"
@@ -27,6 +27,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
     "@types/winston": "^2.4.4",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.2"
   }

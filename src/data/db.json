@@ -1,5 +1,65 @@
 {
-  "medias": [],
-  "users": [],
-  "logs": []
+    "user": [
+    {"id" : 1, 
+    "nom" : "Sarah", 
+    "role" : "admin"},
+    {"id" : 2, 
+    "nom" : "Saphi", 
+    "role" : "user"}
+  ],
+  "film": [
+    {"id" : 1,
+    "type" : "film",
+    "plateforme" : "Netflix", 
+    "userId" : 1,
+    "duree" : 444,
+    "genre" : "sci-fi",
+    "annee" : "2005"},
+    {"id" : 1,
+    "type" : "film", 
+    "titre" : "SaphiFilm", 
+    "plateforme" : "Amazon Prime", 
+    "userId" : 2, 
+    "duree" : 222, 
+    "genre" : "comedie", 
+    "annee" : "2025"}
+  ],
+  "serie": [
+    {
+      "id" : 1,
+      "type" : "serie",
+      "titre" : "SarahSerie",
+      "plateforme" : "Hulu",
+      "status" : "enCours",
+      "saison" : [
+        {"id" : 44,
+        "numero" : 4, 
+        "episode" : 
+        [{"id" : 4444, 
+        "numero" : 4,
+        "titre" : "Episode 4",
+        "duree" : 44, 
+        "watched" : true}]}
+      ]
+    },
+        {
+      "id" : 2,
+      "type" : "serie",
+      "titre" : "SaphiSerie",
+      "plateforme" : "Youtube",
+      "status" : "enCours",
+      "saison" : [
+        {"id" : 22, 
+        "numero" : 2, 
+        "episode" : 
+        [{"id" : 2222, 
+        "numero" : 2, 
+        "titre" : "Episode 2", 
+        "duree" : 22, 
+        "watched" : true}]}
+      ]
+    }
+
+  ]
+
 }

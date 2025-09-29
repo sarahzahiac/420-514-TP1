@@ -1,4 +1,4 @@
-export abstract class Episode {
+export class Episode {
     id: string;
     title: string;
     duration: number;

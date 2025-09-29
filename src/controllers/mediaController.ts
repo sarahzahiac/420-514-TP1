@@ -1,72 +1,72 @@
 import { Request, Response } from "express";
-import { readDB, writeDB } from "../services/dbService";
+import { MediaService } from "../services/mediaService";
+import { Film } from "../models/film.model";
+import { Serie } from "../models/serie.model";
+import { error } from "console";
 
 
 export class MediaController {
-
-    //------------ VOIT TT LES MEDIAS ------------//
-    public async getAllMedia (req : Request, res : Response){
-        const db = await readDB();
-        res.json(db.media);
-    }
-
-    //------------ VOIR UN MEDIA PAR ID ------------//
-    public async getMediaById (req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
-        if (!id) {
-            return res.status(404).json({error : "Media not found"});
-        }
-        const media = db.media.find((m : any) => m.id === id);
-        
+    //------------ SEE ALL MEDIA ------------//
+    public static getAllMedia(req: Request, res: Response) {
+        const media = MediaService.getAllMedia();
         res.json(media);
     }
 
-    //------------ CREER UN MEDIA ------------//
-    public async createMedia(req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
-        //Gestion d'erreur utilisateur
-        if(!id){
-            return res.status(404).json({error : "Id is not valid"});
+    //------------ GET A MEDIA BY ID ------------//
+    public static getById(req: Request, res: Response) {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: "Id parameter is required" });
         }
 
-        const exists = db.media.some((m : any) => m.id === id);
-        if (exists) {
-            return res.status(404).json({error : "ID exists already"});
-        }
+        const media = MediaService.findById(id);
+        if (!media) { return res.status(404).json({ error: "Media not found" }); }
 
-        const newMedia = {...req.body};
-        db.media.push(newMedia);
-        await writeDB(db);
-        res.status(201).json(newMedia);
+        res.json(media);
     }
 
-    //------------ MODIFIER UN MEDIA ------------//
-    public async updateMedia(req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
-        if (!id) {
-            return res.status(404).json({error : "Media not found"});
+    //------------ CREATE MEDIA ------------//
+    public static createMedia(req: Request, res: Response) {
+        const { type, ...data } = req.body;
+
+        let media;
+        if (type === "film") {
+            media = new Film(
+                data.id,
+                data.title,
+                data.genre,
+                data.year,
+                data.rating,
+                data.duration,
+                data.watched
+            );
+        } else if (type === "serie") {
+            media = new Serie(
+                data.id,
+                data.title,
+                data.genre,
+                data.year,
+                data.rating,
+                data.status
+            );
+        } else {
+            return res.status(400).json({ error: "This type of media is not valid" })
         }
-        const index = db.media.findIndex((m : any) => m.id === id);
 
-        db.media[index] = {...db.media[index], ...req.body};
-        await writeDB(db);
-
-        res.json(db.media[index]);
+        MediaService.addMedia(media);
+        res.status(201).json(media);
     }
 
-        //------------ SUPPRIMER UN MEDIA ------------//
-    public async deletmedia(req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
+    //------------ DELETE MEDIA ------------//
+    public static deleteMedia(req: Request, res: Response) {
+        const { id } = req.params;
         if (!id) {
-            return res.status(404).json({error : "Media not found"});
+            return res.status(400).json({ error: "Id parameter is required" });
         }
-        const index = db.media.filter((m : any) => m.id === id);
 
-        await writeDB(db);
+        MediaService.deleteMedia(id);
         res.status(204).send();
     }
+
+
 }

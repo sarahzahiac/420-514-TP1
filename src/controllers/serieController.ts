@@ -1,65 +1,45 @@
 import { Request, Response } from "express";
-import { readDB, writeDB } from "../services/dbService";
-import { write } from "node:fs";
+import { SerieService } from "../services/serieService";
+import { Serie } from "../models/serie.model";
 
 
-export class SerieController {
-
-    //------------ VOIT TT LES SERIES ------------//
-    public async getAllSerie (req : Request, res : Response){
-        const db = await readDB();
-        res.json(db.serie);
+export class FilmController {
+    //------------ SEE ALL SERIE ------------//
+    public static getAllSerie(req: Request, res: Response) {
+        res.json(SerieService.getAllSerie);
     }
 
-    //------------ VOIR UNE SERIE PAR ID ------------//
-    public async getSerieById (req : Request, res : Response){
-        const {id} = req.params;
+    //------------ GET A SERIE BY ID ------------//
+    public static getById(req: Request, res: Response) {
+        const { id } = req.params;
         if (!id) {
-            return res.status(404).json({error : "No serie ID"});
+            return res.status(400).json({ error: "Id parameter is required" });
         }
-        const db = await readDB();
 
-        const serie = db.serie.find((s : any) => s.id === id);
-        if(!serie) return res.status(404).json({error : "Serie not found"})
-        
+        const serie = SerieService.findById(id);
+        if (!serie) { return res.status(404).json({ error: "Serie not found" }); }
+
         res.json(serie);
     }
 
-    //------------ CREER UNE SERIE ------------//
-    public async createSerie(req : Request, res : Response){
-        const db = await readDB();
-        const newSerie = {...req.body};
-        db.serie.push(newSerie);
-        await writeDB(db);
-        res.status(201).json(newSerie);
+    //------------ CREATE SERIE ------------//
+    public static createSerie(req: Request, res: Response) {
+    const {id, title, genre, year, rating, status } = req.body;
+    const serie = new Serie(id, title, genre, year, rating, status, []);
+    SerieService.addSerie(serie);
+    res.status(201).json(serie);
     }
 
-    //------------ MODIFIER UNE SERIE ------------//
-    public async updateMedia(req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
+    //------------ DELETE SERIE ------------//
+    public static deleteSerie(req: Request, res: Response) {
+        const { id } = req.params;
         if (!id) {
-            return res.status(404).json({error : "No serie ID"});
+            return res.status(400).json({ error: "Id parameter is required" });
         }
-        const index = db.media.findIndex((m : any) => m.id === id);
 
-        db.media[index] = {...db.media[index], ...req.body};
-        await writeDB(db);
-
-        res.json(db.media[index]);
+        SerieService.deleteSerie(id);
+        res.status(204).send();
     }
 
-        //------------ SUPPRIMER UNE SERIE ------------//
-    public async deletmedia(req : Request, res : Response){
-        const db = await readDB();
-        const {id} = req.params;
-        if (!id) {
-            return res.status(404).json({error : "Media not found"});
-        }
-        const index = db.media.filter((m : any) => m.id === id);
 
-        await writeDB(db);
-
-         res.status(204).send();
-    }
 }

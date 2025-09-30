@@ -1,28 +1,28 @@
 import { Media } from "../models/media.model";
 import fs from "fs";
 import path from "path";
-import { Film} from "../models/film.model";
+import { Film } from "../models/film.model";
 import { Serie } from "../models/serie.model";
 
-    //------------ CHARGEMENT DE JSON ------------//
+//------------ CHARGEMENT DE JSON ------------//
 const dbFile = path.join(__dirname, "../data/db.json");
 
 function loadDB() {
-    if(!fs.existsSync(dbFile)){
-        return {film : [], serie: []};
+    if (!fs.existsSync(dbFile)) {
+        return { film: [], serie: [] };
     }
     const raw = fs.readFileSync(dbFile, "utf-8");
     return JSON.parse(raw);
 }
 
-function saveDB(data : any){
+function saveDB(data: any) {
     fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
 }
 
-export class MediaService{
-    private static media : Media[] = [];
+export class MediaService {
+    private static media: Media[] = [];
 
-    //------------ GET ALL MEDIA ------------//
+    //------------ GET TT LES MEDIAS ------------//
     public static getAllMedia(): Media[] {
         const data = loadDB();
 
@@ -53,33 +53,33 @@ export class MediaService{
         return this.media;
     }
 
-    //------------ GET A MEDIA BY ID ------------//
-    public static findById(id: string): Media | undefined{
+    //------------ GET UN MEDIA PAR ID ------------//
+    public static findById(id: string): Media | undefined {
         return this.getAllMedia().find((m) => m.id === id);
     }
 
-    //------------ CREATE MEDIA ------------//
+    //------------ CREER UN MEDIA ------------//
     public static addMedia(media: Film | Serie): void {
         const data = loadDB();
 
-        if (media instanceof Film){
+        if (media instanceof Film) {
             data.film.push({
-                id : media.id,
-                title : media.title,
-                genre : media.genre,
-                year : media.year,
-                rating : media.rating,
-                duration : media.duration,
-                watched : media.watched
+                id: media.id,
+                title: media.title,
+                genre: media.genre,
+                year: media.year,
+                rating: media.rating,
+                duration: media.duration,
+                watched: media.watched
             });
         } else if (media instanceof Serie) {
             data.serie.push({
-                id : media.id,
-                title : media.title,
-                genre : media.genre,
-                year : media.year,
-                rating : media.rating,
-                status : media.status
+                id: media.id,
+                title: media.title,
+                genre: media.genre,
+                year: media.year,
+                rating: media.rating,
+                status: media.status
             });
         } else {
             throw new Error("The object you're trying to insert is not valid !")
@@ -89,10 +89,34 @@ export class MediaService{
         this.media.push(media)
     }
 
-    //------------ DELETE MEDIA ------------//
-    public static deleteMedia(id : string): void{
+    //------------ METTRE A JOUR UN MEDIA------------//
+    public static updateMedia(id: string, updates: any): Media {
         const data = loadDB();
-        data.film = data.film.filter((f:any) => f.id !== id);
+        let updated: Media | undefined;
+
+        const filmIndex = data.film.findIndex((f: any) => f.id === id);
+        if (filmIndex !== -1) {
+            data.film[filmIndex] = { ...data.film[filmIndex], ...updates };
+            const f = data.film[filmIndex];
+            updated = new Film(f.id, f.title, f.genre, f.year, f.rating, f.duration, f.watched);
+        } else {
+            const serieIndex = data.serie.findIndex((s: any) => s.id === id);
+            if (serieIndex !== -1) {
+                data.serie[serieIndex] = { ...data.serie[serieIndex], ...updates };
+                const s = data.serie[serieIndex];
+                updated = new Serie(s.id, s.title, s.genre, s.year, s.rating, s.status, s.season || []);
+            }
+        }
+
+        if(!updated) throw new Error("Media introuvable");
+        saveDB(data);
+        return updated;
+    }
+
+    //------------ SUPPRIMER UN MEDIA ------------//
+    public static deleteMedia(id: string): void {
+        const data = loadDB();
+        data.film = data.film.filter((f: any) => f.id !== id);
         data.serie = data.serie.filter((s: any) => s.id !== id);
 
         saveDB(data);

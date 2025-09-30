@@ -6,13 +6,14 @@ import { error } from "console";
 
 
 export class MediaController {
-    //------------ SEE ALL MEDIA ------------//
+    
+    //------------VOIR TOUT LES MEDIAS ------------//
     public static getAllMedia(req: Request, res: Response) {
         const media = MediaService.getAllMedia();
         res.json(media);
     }
 
-    //------------ GET A MEDIA BY ID ------------//
+    //------------ GET UN MEDIA PAR ID ------------//
     public static getById(req: Request, res: Response) {
         const { id } = req.params;
         if (!id) {
@@ -25,7 +26,7 @@ export class MediaController {
         res.json(media);
     }
 
-    //------------ CREATE MEDIA ------------//
+    //------------ CREER UN MEDIA ------------//
     public static createMedia(req: Request, res: Response) {
         const { type, ...data } = req.body;
 
@@ -57,7 +58,25 @@ export class MediaController {
         res.status(201).json(media);
     }
 
-    //------------ DELETE MEDIA ------------//
+    //------------ METTRE A JOUR UN MEDIA ------------//
+    public static updateMedia(req: Request, res: Response) {
+        const { id } = req.params;
+        if (!id) {
+            return res.status(400).json({ error: "Id parameter is required" });
+        }
+        const existing = MediaService.findById(id);
+        if(!existing) {return res.status(404).json({error : "Media introuvable"})}
+
+        try {
+            const updated = MediaService.updateMedia(id, req.body);
+            res.json(updated);
+        } catch (e: any) {
+            return res.status(400).json({ error: e.message });
+        }
+
+    }
+
+    //------------ SUPPRIMIER UN MEDIA ------------//
     public static deleteMedia(req: Request, res: Response) {
         const { id } = req.params;
         if (!id) {
@@ -67,6 +86,4 @@ export class MediaController {
         MediaService.deleteMedia(id);
         res.status(204).send();
     }
-
-
 }

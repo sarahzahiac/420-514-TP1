@@ -6,15 +6,15 @@ import { Episode } from "../models/episode.model";
 const dbFile = path.join(__dirname, "../data/db.json");
 
 function loadDB() {
-    if (!fs.existsSync(dbFile)) {
-        return { film: [], serie: [] };
-    }
-    const raw = fs.readFileSync(dbFile, "utf-8");
-    return JSON.parse(raw);
+  if (!fs.existsSync(dbFile)) {
+    return { film: [], serie: [] };
+  }
+  const raw = fs.readFileSync(dbFile, "utf-8");
+  return JSON.parse(raw);
 }
 
 function saveDB(data: any) {
-    fs.writeFileSync(dbFile, JSON.stringify(data, null, 2))
+  fs.writeFileSync(dbFile, JSON.stringify(data, null, 2))
 }
 
 export class EpisodeService {

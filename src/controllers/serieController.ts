@@ -3,7 +3,7 @@ import { SerieService } from "../services/serieService";
 import { Serie } from "../models/serie.model";
 
 
-export class FilmController {
+export class SerieController {
     //------------ SEE ALL SERIE ------------//
     public static getAllSerie(req: Request, res: Response) {
         res.json(SerieService.getAllSerie);

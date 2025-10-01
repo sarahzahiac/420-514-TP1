@@ -19,11 +19,11 @@ export class Serie extends Media {
     }
 
     //------------ MARQUER UN EPISODE COMME VU ------------//
-    markEpisodeAsWatched(episodeId : string) : void {
-        for (const season of this.season){
+    markEpisodeAsWatched(episodeId: string, watched: boolean): void {
+        for (const season of this.season) {
             const episode = season.episodes.find((e) => e.id === episodeId);
-            if(episode){
-                episode.watched = true;
+            if (episode) {
+                episode.watched = watched;
                 break;
             }
         }

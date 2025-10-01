@@ -2,6 +2,8 @@ import express from "express";
 import mediaRoute from "./routes/mediaRoute";
 import serieRoute from "./routes/serieRoute";
 import userRoute from "./routes/userRoute";
+import episodeRoute from "./routes/episodesRoute";
+import seasonRoute from "./routes/seasonsRoute";
 import { mockAuth, requireAdmin } from "./middlewares/auth";
 import { logger, logError } from "./services/logger";
 
@@ -19,6 +21,8 @@ app.use("/api/media", (req, res, next) => {
 }, mediaRoute);
 app.use("/api/series", serieRoute);
 app.use("/api/users", userRoute);
+app.use("/api/episodes", episodeRoute);
+app.use("/api/seasons", seasonRoute);
 
 //------------ GESTION DE 404 ------------//
 app.use((req, res) => {

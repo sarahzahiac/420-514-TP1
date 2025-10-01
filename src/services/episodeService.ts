@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { Episode } from "../models/episode.model";
+import { Serie } from "../models/serie.model";
 
 //------------ CHARGEMENT DE JSON ------------//
 const dbFile = path.join(__dirname, "../data/db.json");
@@ -18,6 +19,7 @@ function saveDB(data: any) {
 }
 
 export class EpisodeService {
+  //------------ AJOUTER UN EPISODE ------------//
   public static addEpisode(
     serieId: string,
     seasonId: string,
@@ -41,6 +43,7 @@ export class EpisodeService {
     saveDB(data);
   }
 
+  //------------ MARQUER L'EPISODE COMME VUE ------------//
   public static markEpisodeWatched(
     serieId: string,
     seasonId: string,
@@ -57,6 +60,36 @@ export class EpisodeService {
     if (!episode) throw new Error("Episode not found");
 
     episode.watched = true;
+    saveDB(data);
+  }
+
+  public static updateWatched(
+    episodeId: string,
+    watched: boolean
+  ): void {
+    const data = loadDB();
+    let found = false;
+    for (const s of data.serie) {
+      const serie = new Serie(
+        s.id,
+        s.title,
+        s.genre,
+        s.year,
+        s.rating,
+        s.status,
+        s.season
+      );
+      serie.markEpisodeAsWatched(episodeId, watched);
+      s.season = serie.season;
+      for (const season of serie.season) {
+        if ((season.episodes || []).some((ep: any) => ep.id === episodeId && ep.watched === watched)) {
+          found = true;
+          break;
+        }
+      }
+      if (found) break;
+    }
+    if (!found) throw new Error("Episode not found");
     saveDB(data);
   }
 }

@@ -1,12 +1,20 @@
 {
   "user": [
-    { "id": "1", "nom": "Sarah", "role": "admin" },
-    { "id": "2", "nom": "Saphi", "role": "user" }
+    {
+      "id": "1",
+      "nom": "Sarah",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "nom": "Saphi",
+      "role": "user"
+    }
   ],
   "film": [
     {
       "id": "f1",
-      "title": "Matrix Reloaded",
+      "title": "SarahFilm",
       "genre": "sci-fi",
       "year": 2005,
       "rating": 4.5,
@@ -20,6 +28,32 @@
       "year": 2025,
       "rating": 3.8,
       "duration": 222,
+      "watched": false
+    },
+    {
+      "id": "f1",
+      "title": "Inception",
+      "genre": "sci-fi",
+      "year": 2010,
+      "rating": 9,
+      "duration": 148,
+      "watched": false
+    },
+    {
+      "id": "f3",
+      "title": "Inception",
+      "genre": "sci-fi",
+      "year": 2010,
+      "rating": 9,
+      "duration": 148,
+      "watched": false
+    },
+    {
+      "id": "f3",
+      "genre": "sci-fi",
+      "year": 2010,
+      "rating": 9,
+      "duration": 148,
       "watched": false
     }
   ],
@@ -43,8 +77,37 @@
               "duration": 44,
               "episodeNumber": 1,
               "watched": true
+            },
+            {
+              "id": "s1-sea1-ep2",
+              "title": "Episode 2",
+              "duration": 45,
+              "episodeNumber": 2,
+              "watched": false
+            },
+            {
+              "id": "s1-sea1-ep2",
+              "title": "Episode 3",
+              "duration": 45,
+              "episodeNumber": 3,
+              "watched": false
             }
           ]
+        },
+        {
+          "id": "s1-sea2",
+          "seasonNumber": 2,
+          "episodes": []
+        },
+        {
+          "id": "s1-sea2",
+          "seasonNumber": 2,
+          "episodes": []
+        },
+        {
+          "id": "s1-sea2",
+          "seasonNumber": 3,
+          "episodes": []
         }
       ]
     },
@@ -53,7 +116,7 @@
       "title": "SaphiSerie",
       "genre": "aventure",
       "year": 2023,
-      "rating": 4.0,
+      "rating": 4,
       "status": "en_cours",
       "season": [
         {
@@ -71,6 +134,14 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s3",
+      "title": "NouvelleSerie",
+      "genre": "thriller",
+      "year": 2025,
+      "rating": 4.8,
+      "status": "terminee"
     }
   ]
 }

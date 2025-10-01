@@ -30,6 +30,7 @@ export class MediaController {
     public static createMedia(req: Request, res: Response) {
         const { type, ...data } = req.body;
 
+
         let media;
         if (type === "film") {
             media = new Film(
@@ -52,6 +53,16 @@ export class MediaController {
             );
         } else {
             return res.status(400).json({ error: "This type of media is not valid" })
+        }
+
+        //VALIDATION
+        if (type === "film" && (!data.title || data.title.trim() === "")) {
+            return res.status(400).json({ error: "Le champ title est requis pour un film." });
+        }
+
+        const currentYear = new Date().getFullYear();
+        if (type === "film" && data.year > currentYear) {
+            return res.status(400).json({ error: "Le champ year ne doit pas être supérieur à l'année actuelle." });
         }
 
         MediaService.addMedia(media);

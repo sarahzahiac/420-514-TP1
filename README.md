@@ -44,6 +44,6 @@ npm run dev
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
 
 ## Important 
-Il convient de préciser que ce TP est incomplet. Plusieurs fonctionnalités font défaut, en particulier le filtrage et la fonctionnalité de mise à jour.
+Il convient de préciser que ce TP est incomplet. Plusieurs fonctionnalités font défaut, en particulier le filtrage et la fonctionnalité de mise à jour. Il manque aussi l'implémentation de Reggex.
 
 

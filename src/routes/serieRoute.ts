@@ -12,7 +12,7 @@ router.delete("/:id", (req, res) => SerieController.deleteSerie(req, res));
 router.get("/:id/episodes", (req, res) => {
     const {id} = req.params;
     const serie = SerieService.findById(id);
-    if(!serie) return res.status(404).json({error : "Serie introuvable"});
+    if(!serie) return res.status(404).json({error : "Série introuvable"});
     const episodes = (serie.season || []).flatMap((se : any) => se.episodes || []);
     res.json(episodes);
 })

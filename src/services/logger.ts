@@ -8,6 +8,7 @@ if(fs.existsSync(logsDir)){
     fs.mkdirSync(logsDir, {recursive : true});
 }
 
+//------------ FORMAT DE LOGGERS ------------//
 export const logger = createLogger({
     level : "info",
     format : format.combine(
@@ -28,7 +29,7 @@ export const logError = (err: any, method: string, url: string) => {
 	logger.error(`ERR ${method} ${url} message=${err.message}`);
 };
 
-//------------ GESTION DE QUI QUI A APPELR LAROUTE, QUAND ET COMMENT ------------//
+//------------ GESTION DE QUI À APPELR LA ROUTE, QUAND ET COMMENT ------------//
 export const logRequest = (method: string, url: string, userId?: string) => {
 	logger.info(`REQ ${method} ${url} user=${userId || "anonymous"}`);
 };

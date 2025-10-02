@@ -22,7 +22,7 @@ function saveDB(data: any) {
 export class MediaService {
     private static media: Media[] = [];
 
-    //------------ GET TT LES MEDIAS ------------//
+    //------------ GET TT LES MÉDIAS ------------//
     public static getAllMedia(): Media[] {
         const data = loadDB();
 
@@ -58,7 +58,7 @@ export class MediaService {
         return this.getAllMedia().find((m) => m.id === id);
     }
 
-    //------------ CREER UN MEDIA ------------//
+    //------------ CRÉER UN MEDIA ------------//
     public static addMedia(media: Film | Serie): void {
         const data = loadDB();
 
@@ -82,7 +82,7 @@ export class MediaService {
                 status: media.status
             });
         } else {
-            throw new Error("The object you're trying to insert is not valid !")
+            throw new Error("Média invalide")
         }
 
         saveDB(data);
@@ -108,7 +108,7 @@ export class MediaService {
             }
         }
 
-        if(!updated) throw new Error("Media introuvable");
+        if(!updated) throw new Error("Média introuvable");
         saveDB(data);
         return updated;
     }

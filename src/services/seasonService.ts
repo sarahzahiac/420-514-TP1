@@ -18,18 +18,18 @@ function saveDB(data: any) {
 }
 
 export class SeasonService{
-    //------------ GET A SEASON------------//
+    //------------ GET UNE SAISON------------//
     public static getSeason(serieId : string): Season[]{
         const data = loadDB();
         const serie = data.serie.find((s: any) => s.id === serieId);
         return serie ? serie.season || [] : [];
     }
     
-    //------------ CREATE SEASON ------------//
+    //------------ CRÉER UNE SAISON ------------//
     public static addSeason(serieId : string, season : Season):void{
         const data = loadDB();
         const serie = data.serie.find((s: any) => s.id === serieId);
-        if (!serie) throw new Error("Serie not found");
+        if (!serie) throw new Error("Série introuvable");
 
         serie.season = serie.season || [];
         serie.season.push({

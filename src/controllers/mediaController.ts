@@ -17,11 +17,11 @@ export class MediaController {
     public static getById(req: Request, res: Response) {
         const { id } = req.params;
         if (!id) {
-            return res.status(400).json({ error: "Id parameter is required" });
+            return res.status(400).json({ error: "Un paramètre ID est obligatoire" });
         }
 
         const media = MediaService.findById(id);
-        if (!media) { return res.status(404).json({ error: "Media not found" }); }
+        if (!media) { return res.status(404).json({ error: "Média introuvable" }); }
 
         res.json(media);
     }
@@ -52,7 +52,7 @@ export class MediaController {
                 data.status
             );
         } else {
-            return res.status(400).json({ error: "This type of media is not valid" })
+            return res.status(400).json({ error: "Ce type de média est invalide" })
         }
 
         //VALIDATION
@@ -73,10 +73,10 @@ export class MediaController {
     public static updateMedia(req: Request, res: Response) {
         const { id } = req.params;
         if (!id) {
-            return res.status(400).json({ error: "Id parameter is required" });
+            return res.status(400).json({ error: "Un paramètre ID est obligatoire" });
         }
         const existing = MediaService.findById(id);
-        if(!existing) {return res.status(404).json({error : "Media introuvable"})}
+        if(!existing) {return res.status(404).json({error : "Média introuvable"})}
 
         try {
             const updated = MediaService.updateMedia(id, req.body);
@@ -91,7 +91,7 @@ export class MediaController {
     public static deleteMedia(req: Request, res: Response) {
         const { id } = req.params;
         if (!id) {
-            return res.status(400).json({ error: "Id parameter is required" });
+            return res.status(400).json({ error: "Un paramètre ID est obligatoire" });
         }
 
         MediaService.deleteMedia(id);

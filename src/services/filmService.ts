@@ -19,7 +19,7 @@ function saveDB(data: any) {
 
 export class FilmService {
 
-    //------------ GET ALL FILM ------------//
+    //------------ GET TT LES FILMS ------------//
     public static getAllFilm(): Film[] {
         const data = loadDB();
         return data.film.map(
@@ -36,12 +36,12 @@ export class FilmService {
         );
     }
 
-    //------------ GET A FILM BY ID ------------//
+    //------------ GET UN FILM PAR ID ------------//
     public static findById(id: string): Film | undefined {
         return this.getAllFilm().find((f) => f.id === id);
     }
 
-    //------------ CREATE FILM ------------//
+    //------------ CRÉER UN FILM ------------//
     public static addFilm(film: Film): void {
         const data = loadDB();
 
@@ -58,7 +58,7 @@ export class FilmService {
         saveDB(data);
     }
 
-    //------------ DELETE FILM ------------//
+    //------------ SUPPRIMER UN FILM ------------//
     public static deleteFilm(id : string): void{
         const data = loadDB();
         data.film = data.film.filter((f:any) => f.id !== id);

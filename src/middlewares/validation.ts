@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
+//------------ NON FONCTIONNELLE : je n'ai pas eu le temps d'implémenter la logique encore ------------//
+
 export function validateBody(resource : "media" | "serie" | "user" | 'film' | 'episode' ) {
 
     //------------ FORMULES REGGEX ------------//

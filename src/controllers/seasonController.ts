@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { SeasonService } from "../services/seasonService";
 
 export class SeasonController {
+    //------------CRÉER UNE SAISON ------------//
     static createSeason(req: Request, res: Response) {
         const { serieId, season } = req.body;
         if (!serieId || !season) {
-            return res.status(400).json({ error: "serieId and season are required" });
+            return res.status(400).json({ error: "Un paramètre serieId et une saison est obligatoire" });
         }
         try {
             SeasonService.addSeason(serieId, season);

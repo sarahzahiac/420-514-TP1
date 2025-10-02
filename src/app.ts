@@ -13,12 +13,15 @@ const port = 3000;
 app.use(express.json());
 app.use(mockAuth)
 
+//------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN ------------//
 app.use("/api/media", (req, res, next) => {
     if(["POST", "PUT", "DELETE"].includes(req.method)) {
         return requireAdmin(req, res, next);
     }
     next();
 }, mediaRoute);
+
+//------------ ROUTES ------------//
 app.use("/api/series", serieRoute);
 app.use("/api/users", userRoute);
 app.use("/api/episodes", episodeRoute);
@@ -32,7 +35,7 @@ app.use((req, res) => {
 //------------ GESTION D'ERREUR ------------//
 app.use((err: any, req: express.Request, res: express.Response, _next: express.NextFunction) => {
     logError(err, req.method, req.originalUrl);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Erreur de serveur" });
 });
 
 app.listen(port, () => {

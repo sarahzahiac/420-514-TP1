@@ -4,6 +4,7 @@ import { logError } from "../services/logger";
 import { error } from "console";
 
 export class UserController {
+    //------------ GET TT LES UTILISATEURS ------------//
     public getAllUser(_req : Request, res : Response){
         try{
             res.json(UserService.getAllUsers());
@@ -13,6 +14,7 @@ export class UserController {
         }
     }
 
+    //------------ GET TT UN MEDIA USER ------------//
     public getUserMedia(req : Request, res : Response){
         try{
             const {id} = req.params;

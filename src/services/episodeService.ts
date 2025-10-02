@@ -19,29 +19,6 @@ function saveDB(data: any) {
 }
 
 export class EpisodeService {
-  //------------ AJOUTER UN EPISODE ------------//
-  public static addEpisode(
-    serieId: string,
-    seasonId: string,
-    episode: Episode
-  ): void {
-    const data = loadDB();
-    const serie = data.serie.find((s: any) => s.id === serieId);
-    if (!serie) throw new Error("Serie not found");
-
-    const season = serie.saisons.find((se: any) => se.id === seasonId);
-    if (!season) throw new Error("Season not found");
-
-    season.episodes = season.episodes || [];
-    season.episodes.push({
-      id: episode.id,
-      title: episode.title,
-      duration: episode.duration,
-      watched: episode.watched,
-    });
-
-    saveDB(data);
-  }
 
   //------------ MARQUER L'EPISODE COMME VUE ------------//
   public static markEpisodeWatched(
@@ -51,18 +28,19 @@ export class EpisodeService {
   ): void {
     const data = loadDB();
     const serie = data.serie.find((s: any) => s.id === serieId);
-    if (!serie) throw new Error("Serie not found");
+    if (!serie) throw new Error("Série introuvable");
 
     const season = serie.saisons.find((se: any) => se.id === seasonId);
-    if (!season) throw new Error("Season not found");
+    if (!season) throw new Error("Saison introuvable");
 
     const episode = season.episodes.find((ep: any) => ep.id === episodeId);
-    if (!episode) throw new Error("Episode not found");
+    if (!episode) throw new Error("Épisode introuvable");
 
     episode.watched = true;
     saveDB(data);
   }
 
+  //------------ MODIFIER UN ÉPISODE ------------//
   public static updateWatched(
     episodeId: string,
     watched: boolean
@@ -89,7 +67,7 @@ export class EpisodeService {
       }
       if (found) break;
     }
-    if (!found) throw new Error("Episode not found");
+    if (!found) throw new Error("Épisode introuvable");
     saveDB(data);
   }
 }

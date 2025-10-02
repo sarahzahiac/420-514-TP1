@@ -13,7 +13,7 @@ declare global {
         }   
     }
 }
-
+ //------------ AUTH POSTMAN ------------//
 export function mockAuth(req: Request, res: Response, next: NextFunction) {
   const id = req.header("x-user-id") || "anonymous";
   const role = (req.header("x-user-role") as "admin" | "user") || "user";
@@ -22,6 +22,7 @@ export function mockAuth(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
+//------------ GESTION NON ADMIN ------------//
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
     if (req.user?.role !== "admin") {
         return res.status(403).json({ error: "Privilège administrateur requis" });

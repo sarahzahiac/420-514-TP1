@@ -19,7 +19,7 @@ function saveDB(data: any) {
 
 export class SerieService {
 
-    //------------ GET ALL SERIE ------------//
+    //------------ GET TT LES SÉRIES ------------//
     public static getAllSerie(): Serie[] {
         const data = loadDB();
         return data.serie.map(
@@ -36,12 +36,12 @@ export class SerieService {
         );
     }
 
-    //------------ GET A SERIE BY ID ------------//
+    //------------ GET UNE SÉRIE PAR ID ------------//
     public static findById(id: string): Serie | undefined {
         return this.getAllSerie().find((s) => s.id === id);
     }
 
-    //------------ CREATE SERIE ------------//
+    //------------ CRÉER UNE SÉRIE ------------//
     public static addSerie(serie: Serie): void {
         const data = loadDB();
 
@@ -57,7 +57,7 @@ export class SerieService {
         saveDB(data);
     }
 
-    //------------ DELETE SERIE ------------//
+    //------------ SUPPRIMER UNE SÉRIE ------------//
     public static deleteSerie(id : string): void{
         const data = loadDB();
         data.serie = data.serie.filter((s:any) => s.id !== id);

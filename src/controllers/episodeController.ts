@@ -4,6 +4,7 @@ import path from "path";
 import { EpisodeService } from "../services/episodeService";
 
 export class EpisodeController {
+	//------------ CRÉER UN ÉPISODE ------------//
 	public static createEpisode(req: Request, res: Response) {
 		const { serieId, seasonId, episode } = req.body;
 		if (!serieId || !seasonId || !episode) {
@@ -26,6 +27,7 @@ export class EpisodeController {
 		res.status(201).json(episode);
 	}
 
+	//------------ MODIFIER UN ÉPISODE ------------//
     public static updateWatched(req: Request, res: Response) {
 		const episodeId = req.params.id;
 		const { watched } = req.body;

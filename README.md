@@ -1,4 +1,4 @@
-# 420-514-TP1
+# 420-514-TP
 
 ## Description du projet
 

@@ -1,0 +1,14 @@
+{
+  "db": {
+    "uri": "mongodb+srv://admin:admin123@test.npu9g0a.mongodb.net/test"
+  },
+  "security": {
+    "jwt": {
+      "secret": "dev-secret",
+      "expiresIn": "1h"
+    },
+    "cors": {
+      "origins": ["http://localhost:3000"]
+    }
+  }
+}

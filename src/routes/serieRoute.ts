@@ -1,20 +1,11 @@
 import { Router } from "express";
 import { SerieController } from "../controllers/serieController";
-import { SerieService } from "../services/serieService";
-
 
 const router = Router();
 
-router.get("/", (req, res) => SerieController.getAllSerie(req, res));
-router.get("/:id", (req, res) => SerieController.getById(req, res));
-router.post("/", (req, res) => SerieController.createSerie(req, res));
-router.delete("/:id", (req, res) => SerieController.deleteSerie(req, res));
-router.get("/:id/episodes", (req, res) => {
-    const {id} = req.params;
-    const serie = SerieService.findById(id);
-    if(!serie) return res.status(404).json({error : "Série introuvable"});
-    const episodes = (serie.season || []).flatMap((se : any) => se.episodes || []);
-    res.json(episodes);
-})
+//http://localhost:3000/api/v2/series?title=Breaking Bad&genre=Crime&status=ended
+router.get("/", SerieController.getSeries);
+//http://localhost:3000/api/v2/series --     {"title": "New", "genres": ["New"],"status": "ongoing" }
+router.post("/", SerieController.createSerie);
 
 export default router;

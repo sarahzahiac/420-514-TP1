@@ -1,68 +1,32 @@
-import fs from "fs";
-import path from "path";
-import { Serie } from "../models/serie.model";
-
-//------------ CHARGEMENT DE JSON ------------//
-const dbFile = path.join(__dirname, "../data/db.json");
-
-function loadDB() {
-    if (!fs.existsSync(dbFile)) {
-        return { film: [], serie: [] };
-    }
-    const raw = fs.readFileSync(dbFile, "utf-8");
-    return JSON.parse(raw);
-}
-
-function saveDB(data: any) {
-    fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
-}
+import { SerieModel, ISerie } from "../models/serieModel";
 
 export class SerieService {
 
-    //------------ GET TT LES SÉRIES ------------//
-    public static getAllSerie(): Serie[] {
-        const data = loadDB();
-        return data.serie.map(
-            (s: any) =>
-                new Serie(
-                    s.id,
-                    s.title,
-                    s.genre,
-                    s.year,
-                    s.rating,
-                    s.status,
-                    s.season
-                )
-        );
+    //------------ GET TT LES SERIES AVEC FILTRES------------//
+    static async getSeries(query: any): Promise<ISerie[]> {
+        const filter: any = {};
+        
+        //par titre
+        if(query.title && query.title.trim() !== ""){
+            filter.title = { $regex: query.title, $options: "i" }; //insensible a la case
+        }
+
+        //par genre
+        if(query.genre && query.genre.trim() !== ""){
+            const genresArray = query.genre.split(',').map((genre: string) => genre.trim());
+            filter.genres = { $in: genresArray };
+        }
+
+        //par status
+        if(query.status && (query.status === "ongoing" || query.status === "ended")){
+            filter.status = query.status;
+        }
+
+        return SerieModel.find(filter);
     }
 
-    //------------ GET UNE SÉRIE PAR ID ------------//
-    public static findById(id: string): Serie | undefined {
-        return this.getAllSerie().find((s) => s.id === id);
+    static async createSerie(serieData: Partial<ISerie>): Promise<ISerie> {
+        const serie = new SerieModel(serieData);
+        return serie.save();
     }
-
-    //------------ CRÉER UNE SÉRIE ------------//
-    public static addSerie(serie: Serie): void {
-        const data = loadDB();
-
-        data.serie.push({
-            id: serie.id,
-            title: serie.title,
-            genre: serie.genre,
-            year: serie.year,
-            rating: serie.rating,
-            status: serie.status,
-            season: []
-        });
-        saveDB(data);
-    }
-
-    //------------ SUPPRIMER UNE SÉRIE ------------//
-    public static deleteSerie(id : string): void{
-        const data = loadDB();
-        data.serie = data.serie.filter((s:any) => s.id !== id);
-       
-        saveDB(data);
-    }
-
 }

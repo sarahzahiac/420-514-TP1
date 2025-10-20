@@ -1,9 +1,9 @@
 import express from "express";
 import mediaRoute from "./routes/mediaRoute";
-import serieRoute from "./routes/serieRoute";
 import userRoute from "./routes/userRoute";
 import episodeRoute from "./routes/episodesRoute";
 import seasonRoute from "./routes/seasonsRoute";
+import serie from "./routes/serieRoute";
 import { mockAuth, requireAdmin } from "./middlewares/auth";
 import { logger, logError } from "./services/logger";
 import dotenv from "dotenv";
@@ -11,6 +11,7 @@ import { connectDB } from "../config/db";
 import mongoose from "mongoose";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import movie from "./routes/movieRoute";
 
 dotenv.config();
 
@@ -31,35 +32,10 @@ app.use("/api/media", (req, res, next) => {
 //------------ ROUTES ------------//
 //app.use("/api/series", serieRoute);
 //app.use("/api/users", userRoute);
-app.use("/api/episodes", episodeRoute);
-app.use("/api/seasons", seasonRoute);
-
-//http://localhost:3000/api/users
-const UserSchema = new mongoose.Schema({}, { strict: false });
-const UserModel = mongoose.model("users", UserSchema);
-
-app.get("/api/users", async (req, res) => {
-  const users = await UserModel.find({});
-  res.json(users);
-});
-
-//http://localhost:3000/api/films
-const FilmSchema = new mongoose.Schema({}, { strict: false });
-const FilmModel = mongoose.model("films", FilmSchema);
-
-app.get("/api/films", async (req, res) => {
-  const films = await FilmModel.find({});
-  res.json(films);
-});
-
-//http://localhost:3000/api/series
-const SerieSchema = new mongoose.Schema({}, { strict: false });
-const SerieModel = mongoose.model("series", SerieSchema);
-
-app.get("/api/series", async (req, res) => {
-  const series = await SerieModel.find({});
-  res.json(series);
-});
+// app.use("/api/episodes", episodeRoute);
+// app.use("/api/seasons", seasonRoute);
+app.use("/api/v2/movies", movie);
+app.use("/api/v2/series", serie);
 
 //------------ CONFIG SWAGGER ------------//
 // Définir les options de Swagger

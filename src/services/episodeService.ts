@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { Episode } from "../models/episode.model";
-import { Serie } from "../models/serie.model";
+import { Serie } from "../models/serieModel";
 
 //------------ CHARGEMENT DE JSON ------------//
 const dbFile = path.join(__dirname, "../data/db.json");

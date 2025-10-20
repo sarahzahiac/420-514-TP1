@@ -1,43 +1,30 @@
-import fs from "fs";
-import path from "path";
-import { Season } from "../models/season.model";
+import mongoose from "mongoose";
+import { SeasonModel } from "../models/seasonModel";
+import { SerieModel } from "../models/serieModel";
 
-//------------ CHARGEMENT DE JSON ------------//
-const dbFile = path.join(__dirname, "../data/db.json");
-
-function loadDB() {
-    if (!fs.existsSync(dbFile)) {
-        return { film: [], serie: [] };
+export class SeasonService {
+    //------------ GET TT LES SAISONS D'UNE SERIE ------------//
+    static async getSeasonsBySerieId(seriesId: string | mongoose.Types.ObjectId) {
+        const query = mongoose.isValidObjectId(seriesId) ?{ seriesId: new mongoose.Types.ObjectId(seriesId) } : {seriesId};
+        return await SeasonModel.find(query);
     }
-    const raw = fs.readFileSync(dbFile, "utf-8");
-    return JSON.parse(raw);
-}
 
-function saveDB(data: any) {
-    fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
-}
-
-export class SeasonService{
-    //------------ GET UNE SAISON------------//
-    public static getSeason(serieId : string): Season[]{
-        const data = loadDB();
-        const serie = data.serie.find((s: any) => s.id === serieId);
-        return serie ? serie.season || [] : [];
-    }
-    
     //------------ CRÉER UNE SAISON ------------//
-    public static addSeason(serieId : string, season : Season):void{
-        const data = loadDB();
-        const serie = data.serie.find((s: any) => s.id === serieId);
-        if (!serie) throw new Error("Série introuvable");
+    static async createSeason(seriesId: string, seasonData: { seasonNo: number; episodes: number }) {
+        const serie = await SerieModel.findById(seriesId);
+        if (!serie) {
+            throw new Error("Série introuvable 😿");
+        }
 
-        serie.season = serie.season || [];
-        serie.season.push({
-            id: season.id,
-            seasonNumber: season.seasonNumber,
-            episodes: [],
-        })
+        const existing = await SeasonModel.findOne({seriesId, seasonNo: seasonData.seasonNo});
+        if (existing) {
+            throw new Error("La saison existe déjà pour cette série 😿");
+        }
 
-        saveDB(data);
+        const season = new SeasonModel({seriesId, seasonNo: seasonData.seasonNo, episodes: seasonData.episodes});
+        await season.save();
+        return season;
     }
 }
+
+export default SeasonService;

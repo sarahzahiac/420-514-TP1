@@ -1,18 +1,38 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response  } from "express";
+import mongoose from "mongoose";
 import { SeasonService } from "../services/seasonService";
 
 export class SeasonController {
-    //------------CRÉER UNE SAISON ------------//
-    static createSeason(req: Request, res: Response) {
-        const { serieId, season } = req.body;
-        if (!serieId || !season) {
-            return res.status(400).json({ error: "Un paramètre serieId et une saison est obligatoire" });
-        }
+    //------------ GET TOUTES LES SAISONS D'UNE SERIE PAR ID DE SERIE ------------//
+    static async getAllSeasonsBySeries(req: Request<{ seriesId: string }>, res: Response, next: NextFunction) {
         try {
-            SeasonService.addSeason(serieId, season);
-            res.status(201).json(season);
-        } catch (err: any) {
-            res.status(404).json({ error: err.message });
+            const {seriesId} = req.params;
+            const objectId = new mongoose.Types.ObjectId(seriesId);
+            const seasons = await SeasonService.getSeasonsBySerieId(objectId);
+
+            if (!seasons || seasons.length === 0) {
+                return res.status(200).json({ message: "Aucune saison trouvée pour cette série 😿" });
+            }
+            return res.status(200).json(seasons);
+        }catch (error: any) {
+            if (error instanceof mongoose.Error.CastError) {
+                return res.status(400).json({ message: "ID de série invalide 😿 " });
+            }
+            return res.status(404).json({ message: error.message });
+        } 
+    }
+
+    //------------ CRÉER UNE SAISON ------------//
+    static async createSeason(req: Request<{ seriesId: string }>, res: Response, next: NextFunction) {
+        try {
+            const { seriesId } = req.params;
+            const { seasonNo, episodes } = req.body;
+
+            //ajouter admin 
+            const season = await SeasonService.createSeason(seriesId, { seasonNo, episodes });
+            return res.status(201).json(season);
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
         }
     }
 }

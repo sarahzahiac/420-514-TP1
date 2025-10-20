@@ -1,10 +1,6 @@
 import express from "express";
 import mediaRoute from "./routes/mediaRoute";
-import userRoute from "./routes/userRoute";
-import episodeRoute from "./routes/episodesRoute";
-import seasonRoute from "./routes/seasonsRoute";
-import serie from "./routes/serieRoute";
-import { mockAuth, requireAdmin } from "./middlewares/auth";
+import { requireJwt, requireAdmin } from "./middlewares/auth";
 import { logger, logError } from "./services/logger";
 import dotenv from "dotenv";
 import { connectDB } from "../config/db";
@@ -12,14 +8,17 @@ import mongoose from "mongoose";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import movie from "./routes/movieRoute";
+import serie from "./routes/serieRoute";
+import season from "./routes/seasonsRoute";
+import auth from "./routes/authRoutes";
+import user from "./routes/userRoute";
 
 dotenv.config();
-
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(mockAuth)
+
 
 //------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN ------------//
 app.use("/api/media", (req, res, next) => {
@@ -36,6 +35,9 @@ app.use("/api/media", (req, res, next) => {
 // app.use("/api/seasons", seasonRoute);
 app.use("/api/v2/movies", movie);
 app.use("/api/v2/series", serie);
+app.use("/api/v2/series", season);
+app.use("/api/v2/auth", auth);
+app.use("/api/v2/users", user);
 
 //------------ CONFIG SWAGGER ------------//
 // Définir les options de Swagger

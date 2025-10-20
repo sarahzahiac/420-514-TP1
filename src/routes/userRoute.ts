@@ -1,10 +1,11 @@
-import {Router} from "express";
+import express from "express";
 import { UserController } from "../controllers/userController";
+import { requireJwt, requireAdmin } from "../middlewares/auth";
 
-const router = Router();
-const controller = new UserController;
+const router = express.Router();
 
-router.get("/", (req, res) => controller.getAllUser(req, res));
-router.get("/:id/medias", (req, res) => controller.getUserMedia(req, res));
+router.get("/me", requireJwt,UserController.getMe)
+router.patch("/me", requireJwt,UserController.updateMe);
+router.get("/:id", requireJwt, requireAdmin,UserController.getUserById);
 
 export default router;

@@ -1,47 +1,35 @@
-// import { Request, Response } from "express";
-// import fs from "fs";
-// import path from "path";
-// import { EpisodeService } from "../services/episodeService";
+import {Request, Response, NextFunction} from "express";
+import mongoose from "mongoose";
+import { EpisodeService } from "../services/episodeService";
 
-// export class EpisodeController {
-// 	//------------ CRÉER UN ÉPISODE ------------//
-// 	public static createEpisode(req: Request, res: Response) {
-// 		const { serieId, seasonId, episode } = req.body;
-// 		if (!serieId || !seasonId || !episode) {
-// 			return res.status(400).json({ error: "L'id de la serie, de l'eposde et de la saison sont requis" });
-// 		}
+export class EpisodeController {
+	//------------ CRÉER UN ÉPISODE ------------//
+	static async createEpisode(req: Request<{ seriesId: string; seasonId: string }>, res: Response, next: NextFunction) {
+		try{
+			const { seriesId, seasonId } = req.params;
+			const { epNo, title, durationMin } = req.body;
 
-// 		const dbFile = path.join(__dirname, "../data/db.json");
-// 		const data = JSON.parse(fs.readFileSync(dbFile, "utf-8"));
-// 		const serie = data.serie.find((s: any) => s.id === serieId);
-// 		if (!serie) {
-// 			return res.status(404).json({ error: "Serie introuvable" });
-// 		}
-// 		const season = (serie.season || []).find((sea: any) => sea.id === seasonId);
-// 		if (!season) {
-// 			return res.status(404).json({ error: "Saison introuvable" });
-// 		}
-// 		if (!season.episodes) season.episodes = [];
-// 		season.episodes.push(episode);
-// 		fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
-// 		res.status(201).json(episode);
-// 	}
+			const episode = await EpisodeService.createEpisode(seriesId, seasonId, { epNo, title, durationMin });
+            return res.status(201).json(episode);
+		}catch (error : any) {
+			return res.status(error).json({ message: error.message });
+		}
+	}
 
-// 	//------------ MODIFIER UN ÉPISODE ------------//
-//     public static updateWatched(req: Request, res: Response) {
-// 		const episodeId = req.params.id;
-// 		const { watched } = req.body;
+	//------------ LISTER TOUS LES EPISODES D'UNE SAISON ------------//
+	static async getEpisodesBySeason(req: Request<{ seasonId: string }>, res: Response, next: NextFunction) {
+		try {
+			const episodes = await EpisodeService.getEpisodesBySeasonId(req.params.seasonId);
 
-// 		if (typeof episodeId !== "string") {
-// 			return res.status(400).json({ error: "L'identifiant de l'épisode est requis" });
-// 		}
-
-// 		if (typeof watched !== "boolean") {
-// 			return res.status(400).json({ error: "Le champ 'watched' doit être un booléen" });
-// 		} else {
-// 			EpisodeService.markEpisodeWatched("s1", "sea1", episodeId);
-// 			return res.status(200).json({ message: "Episode marqué comme vu" });
-// 		}
-//     }
-
-// }
+			if (!episodes || episodes.length === 0) {
+				return res.status(200).json({ message: "Aucun épisode trouvé pour cette saison 😿" });
+			}
+			return res.status(200).json(episodes);
+		}catch (error: any) {
+			if (error instanceof mongoose.Error.CastError) {
+							return res.status(400).json({ message: "ID de série invalide 😿 " });
+						}
+						return res.status(404).json({ message: error.message });
+		}
+	}
+}

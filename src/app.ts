@@ -1,5 +1,4 @@
 import express from "express";
-import mediaRoute from "./routes/mediaRoute";
 import { requireJwt, requireAdmin } from "./middlewares/auth";
 import { logger, logError } from "./services/logger";
 import dotenv from "dotenv";
@@ -12,6 +11,8 @@ import serie from "./routes/serieRoute";
 import season from "./routes/seasonsRoute";
 import auth from "./routes/authRoutes";
 import user from "./routes/userRoute";
+import episode from "./routes/episodesRoute";
+import rating from "./routes/ratingRoutes";
 
 dotenv.config();
 const app = express();
@@ -21,23 +22,28 @@ app.use(express.json());
 
 
 //------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN ------------//
-app.use("/api/media", (req, res, next) => {
-    if(["POST", "PUT", "DELETE"].includes(req.method)) {
-        return requireAdmin(req, res, next);
-    }
-    next();
-}, mediaRoute);
+// app.use("/api/media", (req, res, next) => {
+//     if(["POST", "PUT", "DELETE"].includes(req.method)) {
+//         return requireAdmin(req, res, next);
+//     }
+//     next();
+// }, mediaRoute);
 
 //------------ ROUTES ------------//
+//    v1    //
 //app.use("/api/series", serieRoute);
 //app.use("/api/users", userRoute);
 // app.use("/api/episodes", episodeRoute);
 // app.use("/api/seasons", seasonRoute);
+
+//    v2    //
 app.use("/api/v2/movies", movie);
 app.use("/api/v2/series", serie);
 app.use("/api/v2/series", season);
 app.use("/api/v2/auth", auth);
 app.use("/api/v2/users", user);
+app.use("/api/v2/series", episode);
+app.use("/api/v2/ratings", rating);
 
 //------------ CONFIG SWAGGER ------------//
 // Définir les options de Swagger

@@ -6,9 +6,7 @@ export class SeasonController {
     //------------ GET TOUTES LES SAISONS D'UNE SERIE PAR ID DE SERIE ------------//
     static async getAllSeasonsBySeries(req: Request<{ seriesId: string }>, res: Response, next: NextFunction) {
         try {
-            const {seriesId} = req.params;
-            const objectId = new mongoose.Types.ObjectId(seriesId);
-            const seasons = await SeasonService.getSeasonsBySerieId(objectId);
+            const seasons = await SeasonService.getSeasonsBySerieId(req.params.seriesId);
 
             if (!seasons || seasons.length === 0) {
                 return res.status(200).json({ message: "Aucune saison trouvée pour cette série 😿" });

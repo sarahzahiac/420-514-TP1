@@ -5,9 +5,12 @@ import { SerieModel } from "../models/serieModel";
 export class SeasonService {
     //------------ GET TT LES SAISONS D'UNE SERIE ------------//
     static async getSeasonsBySerieId(seriesId: string | mongoose.Types.ObjectId) {
-        const query = mongoose.isValidObjectId(seriesId) ?{ seriesId: new mongoose.Types.ObjectId(seriesId) } : {seriesId};
+        const query = mongoose.isValidObjectId(seriesId)
+            ? { seriesId: new mongoose.Types.ObjectId(seriesId) }
+            : { seriesId };
         return await SeasonModel.find(query);
     }
+
 
     //------------ CRÉER UNE SAISON ------------//
     static async createSeason(seriesId: string, seasonData: { seasonNo: number; episodes: number }) {

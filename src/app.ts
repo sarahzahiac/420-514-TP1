@@ -1,18 +1,24 @@
 import express from "express";
-import { requireJwt, requireAdmin } from "./middlewares/auth";
-import { logger, logError } from "./services/logger";
+import { logger, logError } from "./v2/services/logger";
 import dotenv from "dotenv";
 import { connectDB } from "../config/db";
-import mongoose from "mongoose";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
-import movie from "./routes/movieRoute";
-import serie from "./routes/serieRoute";
-import season from "./routes/seasonsRoute";
-import auth from "./routes/authRoutes";
-import user from "./routes/userRoute";
-import episode from "./routes/episodesRoute";
-import rating from "./routes/ratingRoutes";
+
+import serieRoute from "./v1/routes/serieRoute";
+import userRoute from "./v1/routes/userRoute";
+import episodeRoute from "./v1/routes/episodesRoute";
+import seasonRoute from "./v1/routes/seasonsRoute";
+import mediaRoute from "./v1/routes/mediaRoute";
+import { requireAdmin } from "./v1/middlewares/auth";
+
+import movie from "./v2/routes/movieRoute";
+import serie from "./v2/routes/serieRoute";
+import season from "./v2/routes/seasonsRoute";
+import auth from "./v2/routes/authRoutes";
+import user from "./v2/routes/userRoute";
+import episode from "./v2/routes/episodesRoute";
+import rating from "./v2/routes/ratingRoutes";
 
 dotenv.config();
 const app = express();
@@ -22,19 +28,19 @@ app.use(express.json());
 
 
 //------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN ------------//
-// app.use("/api/media", (req, res, next) => {
-//     if(["POST", "PUT", "DELETE"].includes(req.method)) {
-//         return requireAdmin(req, res, next);
-//     }
-//     next();
-// }, mediaRoute);
+app.use("/api/media", (req, res, next) => {
+    if(["POST", "PUT", "DELETE"].includes(req.method)) {
+        return requireAdmin(req, res, next);
+    }
+    next();
+}, mediaRoute);
 
 //------------ ROUTES ------------//
 //    v1    //
-//app.use("/api/series", serieRoute);
-//app.use("/api/users", userRoute);
-// app.use("/api/episodes", episodeRoute);
-// app.use("/api/seasons", seasonRoute);
+app.use("/api/v1/series", serieRoute);
+app.use("/api/v1/users", userRoute);
+app.use("/api/v1/episodes", episodeRoute);
+app.use("/api/v1/seasons", seasonRoute);
 
 //    v2    //
 app.use("/api/v2/movies", movie);
@@ -56,10 +62,10 @@ const swaggerOptions = {
       description: 'A simple API to manage users',
     },
   },
-  apis: ['./src/routes/*.ts'], // Fichier où les routes de l'API sont définies
+  apis: ['./src/routes/*.ts'], // fichiers ou les routes sont definis
 };
 
-// Générer la documentation à partir des options
+// option de generation de la doc
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // http://localhost:3000/api-docs/

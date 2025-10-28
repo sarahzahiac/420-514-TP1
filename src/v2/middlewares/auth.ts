@@ -18,9 +18,10 @@ export const requireJwt = (req: Request & { userId?: string; userRole?: string }
             throw new Error("Token mal formaté 😿");
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as JwtPayload;
-        console.log(decoded.userId);
-        console.log(decoded.role);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
+        req.userId = decoded.userId;
+        req.userRole = decoded.role;
+        next();
     } catch (error) {
         return res.status(401).json({ message: "Token invalide😿" });
     }

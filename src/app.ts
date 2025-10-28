@@ -27,7 +27,7 @@ const port = 3000;
 app.use(express.json());
 
 
-//------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN ------------//
+//------------ IMPLÉMENTATION DE L'AUTHENTIFICATION ADMIN POUR V1 ------------//
 app.use("/api/media", (req, res, next) => {
     if(["POST", "PUT", "DELETE"].includes(req.method)) {
         return requireAdmin(req, res, next);

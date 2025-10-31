@@ -5,6 +5,7 @@ import { connectDB } from "../config/db";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 
+
 import serieRoute from "./v1/routes/serieRoute";
 import userRoute from "./v1/routes/userRoute";
 import episodeRoute from "./v1/routes/episodesRoute";
@@ -41,6 +42,7 @@ app.use("/api/v1/series", serieRoute);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/episodes", episodeRoute);
 app.use("/api/v1/seasons", seasonRoute);
+app.use("/api/v1/media", mediaRoute);
 
 //    v2    //
 app.use("/api/v2/movies", movie);

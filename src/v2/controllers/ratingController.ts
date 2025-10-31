@@ -5,12 +5,13 @@ export class RatingController {
     //------------ CRÉER UNE NOTE ------------//
     static async createRating(req: Request & { userId?: string }, res: Response, next: NextFunction) {
         try{
-            const userId = (req as any).user?.id;
+            const userId = (req as any).userId;
             const {target, targetId, score, review} = req.body;
 
             const rating = await RatingService.createRating(userId, {target, targetId, score, review});
              return res.status(201).json(rating);
         }catch(error){
+            console.error("CREATE RATING ERROR:", error);
             return res.status(500).json({ error: "Erreur lors de la création de la note 😿" });
         }
     }

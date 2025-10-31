@@ -30,7 +30,7 @@ npm run dev
 ```
 
 ## Test PostMan
-[Collection PostMan](https://saphi-1368478.postman.co/workspace/Saphi's-Workspace~f74a7a1e-c3ec-4d7c-8caf-aeb239aeedcd/request/44734399-a7b14856-66eb-44b8-8616-1b7939a98b9b?action=share&creator=44734399&active-environment=44734399-cc26f609-6253-4acb-b8b5-32ec67110aae)
+[Collection PostMan Pour le TP2](https://saphi-1368478.postman.co/workspace/Saphi's-Workspace~f74a7a1e-c3ec-4d7c-8caf-aeb239aeedcd/collection/44734399-42d1b912-fc82-4b4b-9c0c-c312f90717d5?action=share&creator=44734399&active-environment=44734399-cc26f609-6253-4acb-b8b5-32ec67110aae)
 
 ## Structure des données
 * Les données sont stockées dans db.json
@@ -42,8 +42,7 @@ npm run dev
 * https://dev.to/kadea-academy/gestion-derreurs-nodeexpress-8e3
 * https://nodejs.org/api/path.html
 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
-
-## Important 
-Il convient de préciser que ce TP est incomplet. Plusieurs fonctionnalités font défaut, en particulier le filtrage et la fonctionnalité de mise à jour. Il manque aussi l'implémentation de Reggex.
+* https://mongoosejs.com/docs/models.html
+* https://mongoosejs.com/docs/queries.html
 
 

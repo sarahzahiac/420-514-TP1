@@ -1,0 +1,195 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TP2 API V2",
+        "version": "1.0.0",
+        "description": "Endpoints d'authentification pour l'API v2"
+    },
+    "paths": {
+        "/api/v2/auth/register": {
+            "post": {
+                "summary": "Créer un nouvel utilisateur",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "sarah@test.com"
+                                    },
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Sarah"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "sarah123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "nom",
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "_id": {
+                                            "type": "string",
+                                            "example": "64f5a83ac0e0e89f91cdaa11"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "sarah@test.com"
+                                        },
+                                        "nom": {
+                                            "type": "string",
+                                            "example": "Sarah"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "sarah123"
+                                        },
+                                        "role": {
+                                            "type": "string",
+                                            "enum": [
+                                                "user",
+                                                "admin"
+                                            ],
+                                            "example": "user"
+                                        },
+                                        "favorites": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de validation ou email/username déjà utilisé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "error": "Email ou username déjà utilisé 😿"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/auth/login": {
+            "post": {
+                "summary": "Authentifier un utilisateur et obtenir un JWT",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "sarah@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Authentification réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string",
+                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Email non trouvé ou mot de passe incorrect",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                },
+                                "example": {
+                                    "error": "Mot de passe incorrect 😿"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "error": {
+                        "type": "string",
+                        "example": "Description de l'erreur"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

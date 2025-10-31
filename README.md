@@ -26,6 +26,7 @@ npm install --save-dev nodemon
 
 2. **Demarrer le projet:**
 ```bash
+npm run seed
 npm run dev
 ```
 

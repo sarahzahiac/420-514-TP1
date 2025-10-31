@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import { connectDB } from "../config/db";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+// import swagger_v1 from '../docs/swagger_v1.json';
+import swaggerV2 from '../docs/swagger-v2.json';
+
 
 
 import serieRoute from "./v1/routes/serieRoute";
@@ -54,24 +57,21 @@ app.use("/api/v2/series", episode);
 app.use("/api/v2/ratings", rating);
 
 //------------ CONFIG SWAGGER ------------//
-// Définir les options de Swagger
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'User API',
-      version: '1.0.0',
-      description: 'A simple API to manage users',
-    },
-  },
-  apis: ['./src/routes/*.ts'], // fichiers ou les routes sont definis
-};
+// app.use("/docs/v1",
+//   swaggerUi.serveFiles(swagger_v1),
+//   swaggerUi.setup(swagger_v1,
+//   {
+//     customSiteTitle: "API V1 Documentation",
+//   })
+// );
 
-// option de generation de la doc
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-
-// http://localhost:3000/api-docs/
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/docs/v2",
+  swaggerUi.serveFiles(swaggerV2),
+  swaggerUi.setup(swaggerV2,
+  {
+    customSiteTitle: "API V2 Documentation",
+  })
+);
 
 
 //------------ CONNEXION MONGODB ATLAS ------------//

@@ -1,195 +1,371 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "TP2 API V2",
-        "version": "1.0.0",
-        "description": "Endpoints d'authentification pour l'API v2"
-    },
-    "paths": {
-        "/api/v2/auth/register": {
-            "post": {
-                "summary": "Créer un nouvel utilisateur",
-                "tags": [
-                    "Auth"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "sarah@test.com"
-                                    },
-                                    "nom": {
-                                        "type": "string",
-                                        "example": "Sarah"
-                                    },
-                                    "username": {
-                                        "type": "string",
-                                        "example": "sarah123"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "123456"
-                                    }
-                                },
-                                "required": [
-                                    "email",
-                                    "nom",
-                                    "username",
-                                    "password"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Utilisateur créé avec succès",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "_id": {
-                                            "type": "string",
-                                            "example": "64f5a83ac0e0e89f91cdaa11"
-                                        },
-                                        "email": {
-                                            "type": "string",
-                                            "example": "sarah@test.com"
-                                        },
-                                        "nom": {
-                                            "type": "string",
-                                            "example": "Sarah"
-                                        },
-                                        "username": {
-                                            "type": "string",
-                                            "example": "sarah123"
-                                        },
-                                        "role": {
-                                            "type": "string",
-                                            "enum": [
-                                                "user",
-                                                "admin"
-                                            ],
-                                            "example": "user"
-                                        },
-                                        "favorites": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "example": []
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Erreur de validation ou email/username déjà utilisé",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "example": {
-                                    "error": "Email ou username déjà utilisé 😿"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v2/auth/login": {
-            "post": {
-                "summary": "Authentifier un utilisateur et obtenir un JWT",
-                "tags": [
-                    "Auth"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "sarah@test.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "123456"
-                                    }
-                                },
-                                "required": [
-                                    "email",
-                                    "password"
-                                ]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Authentification réussie",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "token": {
-                                            "type": "string",
-                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Email non trouvé ou mot de passe incorrect",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                },
-                                "example": {
-                                    "error": "Mot de passe incorrect 😿"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "Error": {
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TP2 API V2",
+    "version": "1.0.0",
+    "description": "API pour la gestion des utilisateurs, films, séries, saisons, épisodes et évaluations"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Serveur local"
+    }
+  ],
+  "paths": {
+    "/api/v2/auth/register": {
+      "post": {
+        "summary": "Créer un nouvel utilisateur",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
                 "type": "object",
                 "properties": {
-                    "error": {
-                        "type": "string",
-                        "example": "Description de l'erreur"
-                    }
-                }
+                  "email": { "type": "string", "example": "sarah@test.com" },
+                  "nom": { "type": "string", "example": "Sarah" },
+                  "username": { "type": "string", "example": "sarah123" },
+                  "password": { "type": "string", "example": "123456" }
+                },
+                "required": ["email", "nom", "username", "password"]
+              }
             }
+          }
         },
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
+        "responses": {
+          "201": {
+            "description": "Utilisateur créé avec succès"
+          },
+          "400": {
+            "description": "Email ou username déjà utilisé"
+          }
         }
+      }
+    },
+    "/api/v2/auth/login": {
+      "post": {
+        "summary": "Authentifier un utilisateur et obtenir un JWT",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "example": "sarah@test.com" },
+                  "password": { "type": "string", "example": "123456" }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Authentification réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string", "example": "Bearer eyJhbGciOiJI..." }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email ou mot de passe incorrect"
+          }
+        }
+      }
+    },
+
+    "/api/v2/users/me": {
+      "get": {
+        "summary": "Obtenir les infos de l'utilisateur connecté",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Informations de l'utilisateur" }
+        }
+      },
+      "patch": {
+        "summary": "Modifier les infos de l'utilisateur connecté",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "SarahUpdated" },
+                  "favorites": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "example": ["68f5a3e17aafa400bea086ef"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Utilisateur mis à jour" } }
+      }
+    },
+
+    "/api/v2/users/{id}": {
+      "get": {
+        "summary": "Obtenir un utilisateur par ID (admin seulement)",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Utilisateur trouvé" } }
+      }
+    },
+
+    "/api/v2/movies": {
+      "get": {
+        "summary": "Lister tous les films",
+        "tags": ["Movies"],
+        "responses": { "200": { "description": "Liste des films" } }
+      },
+      "post": {
+        "summary": "Créer un nouveau film (admin)",
+        "tags": ["Movies"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string", "example": "Inception" },
+                  "genres": { "type": "array", "items": { "type": "string" }, "example": ["Sci-Fi"] },
+                  "synopsis": { "type": "string", "example": "Film sur les rêves" },
+                  "releaseDate": { "type": "string", "example": "2010-07-16T00:00:00.000Z" },
+                  "durationMin": { "type": "number", "example": 148 }
+                },
+                "required": ["title", "genres", "releaseDate"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Film créé avec succès" } }
+      }
+    },
+
+    "/api/v2/movies/{id}": {
+      "get": {
+        "summary": "Obtenir un film par ID",
+        "tags": ["Movies"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Film trouvé" } }
+      },
+      "patch": {
+        "summary": "Modifier un film (admin)",
+        "tags": ["Movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "durationMin": { "type": "number", "example": 160 } }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Film mis à jour" } }
+      },
+      "delete": {
+        "summary": "Supprimer un film (admin)",
+        "tags": ["Movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "204": { "description": "Film supprimé" } }
+      }
+    },
+
+    "/api/v2/series": {
+      "get": {
+        "summary": "Lister toutes les séries avec filtres",
+        "tags": ["Series"],
+        "parameters": [
+          { "name": "title", "in": "query", "schema": { "type": "string" } },
+          { "name": "genre", "in": "query", "schema": { "type": "string" } },
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["ongoing", "ended"] } }
+        ],
+        "responses": { "200": { "description": "Liste des séries" } }
+      },
+      "post": {
+        "summary": "Créer une nouvelle série (admin)",
+        "tags": ["Series"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": { "type": "string", "example": "Breaking Bad" },
+                  "genres": { "type": "array", "items": { "type": "string" }, "example": ["Crime"] },
+                  "status": { "type": "string", "example": "ended" }
+                },
+                "required": ["title", "genres", "status"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Série créée avec succès" } }
+      }
+    },
+
+    "/api/v2/series/{seriesId}/seasons": {
+      "get": {
+        "summary": "Lister les saisons d'une série",
+        "tags": ["Seasons"],
+        "parameters": [
+          { "name": "seriesId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Liste des saisons" } }
+      },
+      "post": {
+        "summary": "Créer une saison pour une série (admin)",
+        "tags": ["Seasons"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "seriesId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "seasonNo": { "type": "number", "example": 1 },
+                  "episodes": { "type": "number", "example": 10 }
+                },
+                "required": ["seasonNo", "episodes"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Saison créée" } }
+      }
+    },
+
+    "/api/v2/series/{seriesId}/seasons/{seasonId}/episodes": {
+      "post": {
+        "summary": "Créer un épisode dans une saison (admin)",
+        "tags": ["Episodes"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          { "name": "seriesId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "seasonId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "epNo": { "type": "number", "example": 3 },
+                  "title": { "type": "string", "example": "Pilot" },
+                  "durationMin": { "type": "number", "example": 51 }
+                },
+                "required": ["epNo", "title", "durationMin"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Épisode créé" } }
+      }
+    },
+
+    "/api/v2/series/seasons/{seasonId}/episodes": {
+      "get": {
+        "summary": "Lister les épisodes d'une saison",
+        "tags": ["Episodes"],
+        "parameters": [
+          { "name": "seasonId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Liste des épisodes" } }
+      }
+    },
+
+    "/api/v2/ratings": {
+      "post": {
+        "summary": "Créer une note (admin)",
+        "tags": ["Ratings"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "target": { "type": "string", "enum": ["movie", "episode"], "example": "movie" },
+                  "targetId": { "type": "string", "example": "68f5a14ac0e0e89f91cdaa0d" },
+                  "score": { "type": "number", "example": 4.5 },
+                  "review": { "type": "string", "example": "Super film !" }
+                },
+                "required": ["target", "targetId", "score"]
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Note créée avec succès" } }
+      }
+    },
+
+    "/api/v2/ratings/movies/{movieId}/average": {
+      "get": {
+        "summary": "Obtenir la note moyenne d'un film",
+        "tags": ["Ratings"],
+        "parameters": [
+          { "name": "movieId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Note moyenne du film" } }
+      }
+    },
+
+    "/api/v2/ratings/series/{seriesId}/average": {
+      "get": {
+        "summary": "Obtenir la note moyenne d'une série (basée sur ses épisodes)",
+        "tags": ["Ratings"],
+        "parameters": [
+          { "name": "seriesId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "Note moyenne de la série" } }
+      }
     }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }

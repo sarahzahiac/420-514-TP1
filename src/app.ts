@@ -5,6 +5,7 @@ import { connectDB } from "../config/db";
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 // import swagger_v1 from '../docs/swagger_v1.json';
+import swaggerV1 from '../docs/swagger-v1.json';
 import swaggerV2 from '../docs/swagger-v2.json';
 
 
@@ -57,13 +58,13 @@ app.use("/api/v2/series", episode);
 app.use("/api/v2/ratings", rating);
 
 //------------ CONFIG SWAGGER ------------//
-// app.use("/docs/v1",
-//   swaggerUi.serveFiles(swagger_v1),
-//   swaggerUi.setup(swagger_v1,
-//   {
-//     customSiteTitle: "API V1 Documentation",
-//   })
-// );
+app.use("/docs/v1",
+  swaggerUi.serveFiles(swaggerV1),
+  swaggerUi.setup(swaggerV1,
+  {
+    customSiteTitle: "API V1 Documentation Deprecated",
+  })
+);
 
 app.use("/docs/v2",
   swaggerUi.serveFiles(swaggerV2),

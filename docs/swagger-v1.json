@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "API V2 - Suivi des Médias DEPRECATED",
+      "version": "2.0.0",
+      "description": "Documentation de l'API V2 pour la gestion des films, séries, épisodes et utilisateurs."
+    },
+    "servers": [
+      {
+        "url": "/api/v2",
+        "description": "Serveur principal de l'API V2"
+      }
+    ],
+    "paths": {
+      "/media": {
+        "get": {
+          "summary": "Obtenir tous les médias (Deprecated)",
+          "responses": {
+            "200": {
+              "description": "Liste de tous les médias"
+            }
+          }
+        },
+        "post": {
+          "summary": "Créer un nouveau média (Deprecated)",
+          "responses": {
+            "201": {
+              "description": "Média créé avec succès"
+            }
+          }
+        }
+      },
+      "/media/{id}": {
+        "get": {
+          "summary": "Obtenir un média par ID (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Média trouvé" } }
+        },
+        "put": {
+          "summary": "Modifier un média existant",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Média mis à jour" } }
+        },
+        "delete": {
+          "summary": "Supprimer un média (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "204": { "description": "Média supprimé" } }
+        }
+      },
+      "/series": {
+        "get": {
+          "summary": "Obtenir toutes les séries (Deprecated)",
+          "responses": { "200": { "description": "Liste des séries" } }
+        },
+        "post": {
+          "summary": "Créer une séri (Deprecated)",
+          "responses": { "201": { "description": "Série créée avec succès" } }
+        }
+      },
+      "/series/{id}": {
+        "get": {
+          "summary": "Obtenir une série par ID (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Série trouvée" } }
+        },
+        "delete": {
+          "summary": "Supprimer une série (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "204": { "description": "Série supprimée" } }
+        }
+      },
+      "/series/{id}/episodes": {
+        "get": {
+          "summary": "Lister tous les épisodes d'une série (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Liste des épisodes" } }
+        }
+      },
+      "/seasons": {
+        "post": {
+          "summary": "Créer une saison (Deprecated)",
+          "responses": { "201": { "description": "Saison créée avec succès" } }
+        }
+      },
+      "/episodes": {
+        "post": {
+          "summary": "Créer un épisode (Deprecated)",
+          "responses": { "201": { "description": "Épisode créé avec succès" } }
+        }
+      },
+      "/episodes/{id}": {
+        "patch": {
+          "summary": "Mettre à jour un épisode (vu ou non vu) (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Épisode mis à jour" } }
+        }
+      },
+      "/users": {
+        "get": {
+          "summary": "Lister tous les utilisateurs (Deprecated)",
+          "responses": { "200": { "description": "Liste des utilisateurs" } }
+        }
+      },
+      "/users/{id}/medias": {
+        "get": {
+          "summary": "Lister les médias d'un utilisateur (Deprecated)",
+          "parameters": [
+            { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+          ],
+          "responses": { "200": { "description": "Liste des médias de l'utilisateur" } }
+        }
+      }
+    }
+  }
+  

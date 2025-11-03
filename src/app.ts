@@ -7,6 +7,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 // import swagger_v1 from '../docs/swagger_v1.json';
 import swaggerV1 from '../docs/swagger-v1.json';
 import swaggerV2 from '../docs/swagger-v2.json';
+import rateLimit, { RateLimitRequestHandler } from "express-rate-limit";
+import config from 'config';
 
 
 
@@ -39,6 +41,21 @@ app.use("/api/media", (req, res, next) => {
     }
     next();
 }, mediaRoute);
+
+//------------ RATE LIMITNG ------------//
+const rateConfig = config.get<{
+  windowMs: number;
+  max: number;
+}>("security.rateLimit");
+ 
+const limiter: RateLimitRequestHandler = rateLimit({
+  windowMs: rateConfig.windowMs,
+  max: rateConfig.max,
+  message: "Trop de requêtes, réessayez plus tard.",
+});
+ 
+app.use("/api/v2/auth/login", limiter);
+app.use("/api/v2/ratings", limiter);
 
 //------------ ROUTES ------------//
 //    v1    //
@@ -92,3 +109,5 @@ app.use((err: any, req: express.Request, res: express.Response, _next: express.N
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+export default app;

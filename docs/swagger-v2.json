@@ -54,8 +54,8 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": { "type": "string", "example": "sarah@test.com" },
-                  "password": { "type": "string", "example": "123456" }
+                  "email": { "type": "string", "example": "admin@example.com" },
+                  "password": { "type": "string", "example": "Admin1234!" }
                 },
                 "required": ["email", "password"]
               }

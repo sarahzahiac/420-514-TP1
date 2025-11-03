@@ -2,7 +2,7 @@
     "openapi": "3.0.3",
     "info": {
       "title": "API V2 - Suivi des Médias DEPRECATED",
-      "version": "2.0.0",
+      "version": "1.0.0",
       "description": "Documentation de l'API V2 pour la gestion des films, séries, épisodes et utilisateurs."
     },
     "servers": [

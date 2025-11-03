@@ -73,6 +73,24 @@
       "rating": 9,
       "duration": 148,
       "watched": false
+    },
+    {
+      "id": "f3",
+      "title": "Inception",
+      "genre": "sci-fi",
+      "year": 2010,
+      "rating": 9,
+      "duration": 148,
+      "watched": false
+    },
+    {
+      "id": "f3",
+      "title": "Inception",
+      "genre": "sci-fi",
+      "year": 2010,
+      "rating": 9,
+      "duration": 148,
+      "watched": false
     }
   ],
   "serie": [
@@ -101,6 +119,20 @@
               "title": "Episode 2",
               "duration": 45,
               "episodeNumber": 2,
+              "watched": false
+            },
+            {
+              "id": "s1-sea1-ep2",
+              "title": "Episode 3",
+              "duration": 45,
+              "episodeNumber": 3,
+              "watched": false
+            },
+            {
+              "id": "s1-sea1-ep2",
+              "title": "Episode 3",
+              "duration": 45,
+              "episodeNumber": 3,
               "watched": false
             },
             {
@@ -190,6 +222,22 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s3",
+      "title": "NouvelleSerie",
+      "genre": "thriller",
+      "year": 2025,
+      "rating": 4.8,
+      "status": "terminee"
+    },
+    {
+      "id": "s3",
+      "title": "NouvelleSerie",
+      "genre": "thriller",
+      "year": 2025,
+      "rating": 4.8,
+      "status": "terminee"
     },
     {
       "id": "s3",

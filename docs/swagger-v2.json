@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "TP2 API V2",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "API pour la gestion des utilisateurs, films, séries, saisons, épisodes et évaluations"
   },
   "servers": [
@@ -54,8 +54,8 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": { "type": "string", "example": "sarah@test.com" },
-                  "password": { "type": "string", "example": "123456" }
+                  "email": { "type": "string", "example": "admin@example.com" },
+                  "password": { "type": "string", "example": "Admin1234!" }
                 },
                 "required": ["email", "password"]
               }
@@ -103,12 +103,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "username": { "type": "string", "example": "SarahUpdated" },
-                  "favorites": {
-                    "type": "array",
-                    "items": { "type": "string" },
-                    "example": ["68f5a3e17aafa400bea086ef"]
-                  }
+                  "username": { "type": "string", "example": "SarahUpdated" }
                 }
               }
             }
@@ -324,7 +319,7 @@
                 "type": "object",
                 "properties": {
                   "target": { "type": "string", "enum": ["movie", "episode"], "example": "movie" },
-                  "targetId": { "type": "string", "example": "68f5a14ac0e0e89f91cdaa0d" },
+                  "targetId": { "type": "string", "example": "6908d295ef9dae7d9ab7ff98" },
                   "score": { "type": "number", "example": 4.5 },
                   "review": { "type": "string", "example": "Super film !" }
                 },

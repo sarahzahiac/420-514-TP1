@@ -1,19 +1,4 @@
 {
-  "app": {
-    "basePath": "/api"
-  },
-  "server": {
-    "http": {
-      "enabled": true,
-      "port": 3001
-    },
-    "https": {
-      "enabled": true,
-      "port": 3443,
-      "redirectAllHttpToHttps": true
-    },
-    "trustProxy": false
-  },
   "db": {
     "uri": "mongodb+srv://admin:admin123@test.npu9g0a.mongodb.net/v2"
   },
@@ -23,9 +8,7 @@
       "expiresIn": "1h"
     },
     "cors": {
-      "origins": ["http://localhost:3001"]
-    },
-    "rateLimit" : {"WindowsMS" : 6000, "max" : 10}
+      "origins": ["http://localhost:3000"]
+    }
   }
 }
- 

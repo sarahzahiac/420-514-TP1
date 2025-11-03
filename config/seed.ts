@@ -7,7 +7,7 @@ import { SerieModel } from "../src/v2/models/serieModel";
 import { SeasonModel } from "../src/v2/models/seasonModel";
 import { EpisodeModel } from "../src/v2/models/episodeModel";
 import { RatingModel } from "../src/v2/models/ratingModel";
-import { connectDB } from "./database";
+import { connectDB } from "./db";
 
 dotenv.config();
 

@@ -366,6 +366,228 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+     "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["email", "username", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "username": {
+            "type": "string",
+            "example": "SarahC"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "minLength": 8
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "Movie": {
+        "type": "object",
+        "required": ["title", "genres", "durationMin"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "Inception"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 30
+            },
+            "example": ["Sci-Fi", "Thriller"]
+          },
+          "synopsis": {
+            "type": "string",
+            "example": "A mind-bending thriller exploring dream manipulation."
+          },
+          "releaseDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2010-07-16"
+          },
+          "durationMin": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 600,
+            "example": 148
+          }
+        }
+      },
+      "Serie": {
+        "type": "object",
+        "required": ["title", "genres", "status"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "Breaking Bad"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 30
+            },
+            "example": ["Drama", "Crime"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ongoing", "ended"],
+            "example": "ended"
+          }
+        }
+      },
+      "Season": {
+        "type": "object",
+        "required": ["seriesId", "seasonNo", "episodes"],
+        "properties": {
+          "seriesId": {
+            "type": "string",
+            "format": "objectId",
+            "example": "64ac12f1e4b0aab09c34c712"
+          },
+          "seasonNo": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 2
+          },
+          "episodes": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 10
+          }
+        }
+      },
+      "Episode": {
+        "type": "object",
+        "required": ["seriesId", "seasonId", "epNo", "title", "durationMin"],
+        "properties": {
+          "seriesId": {
+            "type": "string",
+            "format": "objectId",
+            "example": "64ac12f1e4b0aab09c34c712"
+          },
+          "seasonId": {
+            "type": "string",
+            "format": "objectId",
+            "example": "64ac12f1e4b0aab09c34c799"
+          },
+          "epNo": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "Pilot"
+          },
+          "durationMin": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 300,
+            "example": 45
+          }
+        }
+      },
+      "Rating": {
+        "type": "object",
+        "required": ["userId", "target", "targetId", "score"],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "objectId",
+            "example": "64ac12f1e4b0aab09c34c800"
+          },
+          "target": {
+            "type": "string",
+            "enum": ["movie", "episode"],
+            "example": "movie"
+          },
+          "targetId": {
+            "type": "string",
+            "format": "objectId",
+            "example": "64ac12f1e4b0aab09c34c712"
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10,
+            "example": 8
+          },
+          "review": {
+            "type": "string",
+            "example": "Très bon épisode, bien rythmé !"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": ["email", "nom", "username", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "sarah@example.com"
+          },
+          "nom": {
+            "type": "string",
+            "pattern": "^[A-Za-z\\s]+$",
+            "example": "Sarah Charef"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 30,
+            "pattern": "^[a-zA-Z0-9._-]+$",
+            "example": "SarahC"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "P@ssword123"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["user", "admin"],
+            "default": "user",
+            "example": "user"
+          },
+          "favorites": {
+            "type": "array",
+            "items": { "type": "string", "format": "objectId" },
+            "example": ["64ac12f1e4b0aab09c34c700", "64ac12f1e4b0aab09c34c701"]
+          }
+        }
+      }
     }
   }
 }
